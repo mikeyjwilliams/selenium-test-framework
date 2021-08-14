@@ -18,3 +18,6 @@ File for all properly named locators for paths using proper linkage from above.
 ex.
 constant_name = `tuple`(By.`names_from_above`, quoted=needed name)
 '''
+
+class Locators:
+    pass
