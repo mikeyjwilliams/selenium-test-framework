@@ -19,5 +19,5 @@ ex.
 constant_name = `tuple`(By.`names_from_above`, quoted=needed name)
 '''
 
-class Locators:
+class Locators():
     pass
