@@ -1,59 +1,80 @@
 #!/usr/bin/env python3
-from selenium import webdriver # allow launching browser
-from selenium.webdriver.common.by import By # allow search with parameters
-from selenium.webdriver.support.ui import WebDriverWait # allow waiting for page to load
-from selenium.webdriver.support import expected_conditions as EC # determine whether the web page has loaded
-from selenium.common.exceptions import TimeoutException # handling timeout situation
-import pytest # testing 
-import time # for timeouts
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
+import os
+import sys
+import inspect
+# fetch path to the directory in which current file is, from root directory or C:\ (or whatever driver number it is)
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+# extract the path to parent directory
+parentdir = os.path.dirname(currentdir)
+# insert path to the folder from parent directory from which the python module/ file is to be imported
+sys.path.insert(0, parentdir)
 
+# Base Methods to use in framework.
 
+class Utility():
 
-class Driver():
     def __init__(self, driver):
         self.driver = driver
-        
-        
-    
-    def main_webdriver(self, browser: str):
-        '''
-        main_webdriver
-        
-        args: browser: str
-        
-        return webdriver.{browser} = chrome || firefox
-        
-        browser: str decides which webdriver is used
-        FIXME: as of now set up only for windows.
-        TODO: set up if statement for linux else windows path for chrome driver.
-        '''
-            
-        if browser == 'chrome':
-            chrome_option = self.driver.ChromeOptions()
-            chrome_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36'
-            chromedriver_path = '../../../drivers/chromedriver.exe'
-            # if chrome add to driver_option chrome options
-            # chrome_option.add_argument(' - incognito')
-            chrome_option.add_argument(chrome_user_agent)
-            chrome_option.add_argument('window-size=1200x600')
-            
-            return self.driver.Chrome(executable_path=chromedriver_path, chrome_options=chrome_option)
-                
-        if browser == 'mozilla':
-            mozilla_option = webdriver.FirefoxOptions()
-            mozilla_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0'
-            mozilladriver_path = '../../../drivers/geckodriver.exe'
-            # if mozilla add to driver_option mozilla options
-            mozilla_option.add_argument(mozilla_user_agent)
-            mozilla_option.add_argument('window-size=1200x600')
 
-            return self.driver.Firefox(executable_path=mozilladriver_path, firefox_options=mozilla_option)
-        
+    # click function on element passed to it when element visibility of is located.
+    def click(self, locator: str):
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(locator)).click()
     
-    def close_driver(self):
-        '''
-        close_driver
-        
-        end the {main_webdriver} 
-        '''
-        self.driver.close()   
+    # assert compare of text from a web element vs test element text.
+    def assert_el_text(self, locator: str, el_text: str):
+        web_el = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(locator))
+        assert web_el.text == el_text
+    
+    # returns a bool depending if visible or not.
+    def is_visible(self, locator: str):
+        element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(locator))
+        return bool(element)
+
+    # hovers mouse over element passed too.
+    def hover_to(self, locator: str):
+        element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(locator))
+        ActionChains(self.driver).move_to_element(element).perform()
+
+
+
+
+#     def find_element_by(self, element_methods: str, element: str):
+#         #! from selenium.webdriver.common.by import By
+#         # element_name: exp. => by_id ...etc
+#         # enter name
+#         # passes correct suffix
+#         # element: name of specific
+#         # {element_name} you chosen
+#         pass
+
+#     def test(self, element_name):
+
+#         element_names = {
+#             "class_name": By.CLASS_NAME,
+#             "css_selector": By.CSS_SELECTOR,
+#             "id": By.ID,
+#             "link_text": By.LINK_TEXT,
+#             "partial_link_text": By.LINK_TEXT,
+#             "partial_link": By.LINK_TEXT,
+#             "xpath": By.XPATH,
+#         }
+
+#         if element_name in element_names:
+#             print(element_name)
+            
+#         else:
+#             print('wrong')
+
+# c = Util(driver=1)
+
+# c.test('partial_link')
+            
+
+
