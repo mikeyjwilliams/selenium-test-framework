@@ -1,7 +1,20 @@
 #!/usr/bin/env python3
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
+import time
+from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
+import os
+import sys
+import inspect
+# fetch path to the directory in which current file is, from root directory or C:\ (or whatever driver number it is)
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+# extract the path to parent directory
+parentdir = os.path.dirname(currentdir)
+# insert path to the folder from parent directory from which the python module/ file is to be imported
+sys.path.insert(0, parentdir)
 
 # Base Methods to use in framework.
 
