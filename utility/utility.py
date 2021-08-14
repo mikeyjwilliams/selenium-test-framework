@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from selenium import webdriver # allow launching browser
 from selenium.webdriver.common.by import By # allow search with parameters
 from selenium.webdriver.support.ui import WebDriverWait # allow waiting for page to load

@@ -1,4 +1,4 @@
-name: /home/old-rick/projects/selenium-test-framework/envs
+name: selenium-test-framework
 channels:
   - defaults
 dependencies:
